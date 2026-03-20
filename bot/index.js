@@ -104,10 +104,11 @@ client.on("interactionCreate", async (interaction) => {
                 milli: msSlowMode
             });
 
+            console.log(`Added slowmode to ${targetMember.user.tag} for ${seconds} seconds`);
+
             await db.query("DELETE FROM slowmode_users WHERE id = $1",[targetUser.id]);
             await db.query("INSERT INTO slowmode_users (id, channel_id, slowmode_ms) VALUES ($1, $2, $3)",[targetUser.id, channelId, msSlowMode]);
-
-            const displayName = targetMember.displayName;
+            
             return await interaction.reply({ 
                 content: `Slowmode enabled for ${discord.userMention(targetUser.id)}. They will be timed out for ${seconds} seconds if they send a message in this channel.`
             });
