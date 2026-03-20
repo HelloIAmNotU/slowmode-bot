@@ -1,0 +1,20 @@
+services:
+  bot:
+    build: ./bot
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:17-alpine
+    env_file:
+      - .env
+    ports:
+      - 5443:5443
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+
+volumes:
+  postgres_data:
